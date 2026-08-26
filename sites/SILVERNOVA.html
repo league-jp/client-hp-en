@@ -54,16 +54,18 @@
   p.lede { color: var(--ink-soft); font-size: 1.02rem; max-width: 58ch; }
 
   /* ---------------- ABOUT US（https://drive.google.com/thumbnail?id=1-Dwwf19-xMVhS2EMgYgu-nBacySa4MuQ&sz=w2000 を差し込み） ---------------- */
+  /* CEOの写真・経歴は「本文の隣に縦長カードを並べる」形だと、本文が短いときに
+     カードの下に不自然な余白ができてしまうため、本文の下に横長の
+     ちいさな紹介欄（丸い写真＋名前・経歴）として並べる構成にしています。 */
   .about-photo { width: 100%; aspect-ratio: 21/8; object-fit: cover; border-radius: 3px; border: 1px solid var(--rule); background: var(--paper-deep); display: block; margin-bottom: 2.4rem; }
-  .about-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3rem; align-items: start; }
-  @media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; } }
-  .ceo-card { border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; max-width: 240px; margin-left: auto; }
-  @media (max-width: 720px) { .ceo-card { max-width: 240px; margin-left: 0; } }
-  .ceo-photo { aspect-ratio: 4/5; width: 100%; object-fit: cover; display: block; background: var(--paper-deep); }
+  .about-body { max-width: 62ch; }
+  .ceo-byline { display: flex; gap: 1.3rem; align-items: flex-start; margin-top: 2.2rem; padding-top: 2.2rem; border-top: 1px solid var(--rule); }
+  @media (max-width: 480px) { .ceo-byline { gap: 1rem; } }
+  .ceo-photo { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; display: block; background: var(--paper-deep); flex: none; border: 1px solid var(--rule); }
   .ceo-photo[src=""] { display: none; } /* 代表者/会社の写真が未提出のときは非表示（テキストのみ表示） */
-  .ceo-meta { padding: 1.1rem 1.3rem 1.3rem; }
-  .ceo-meta .name { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 560; }
-  .ceo-meta .role { font-size: 0.82rem; color: var(--ink-faint); margin-top: 0.15rem; }
+  .ceo-meta .name { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 560; }
+  .ceo-meta .role { font-size: 0.78rem; color: var(--ink-faint); margin-top: 0.1rem; }
+  .ceo-meta p { margin-top: 0.6rem; font-size: 0.92rem; color: var(--ink-soft); }
 
   /* ---------------- OUR SERVICES（https://drive.google.com/thumbnail?id=1kIsO0kmXbiOTi4Ee7_K6INZV-tik7isJ&sz=w2000 を差し込み） ---------------- */
   .services-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 3rem; align-items: start; }
@@ -75,8 +77,11 @@
   .service-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--brand); padding-top: 0.15rem; }
   .service-row p { color: var(--ink-soft); font-size: 0.98rem; margin: 0; }
 
-  .logo-row { display: flex; flex-wrap: wrap; gap: 1.4rem; margin: 1.8rem 0 2rem; align-items: center; }
-  .logo-row img { height: 2.2rem; width: auto; opacity: 0.85; }
+  .logo-row { display: flex; flex-wrap: wrap; gap: 2.4rem; margin: 1.8rem 0 2rem; align-items: center; justify-content: space-between; }
+  .logo-group { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; }
+  .logo-group img { height: 3.6rem; width: auto; opacity: 0.92; }
+  .retail-logos { height: auto; width: auto; max-width: 360px; max-height: 150px; opacity: 0.92; border-radius: 3px; }
+  @media (max-width: 720px) { .logo-row { justify-content: flex-start; } .retail-logos { max-width: 100%; } }
   .partner-cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-top: 2.2rem; }
   @media (max-width: 720px) { .partner-cats { grid-template-columns: repeat(2, 1fr); } }
   .partner-cat { border-top: 1px solid var(--rule); padding-top: 0.8rem; }
@@ -155,16 +160,14 @@
     <div class="wrap">
       <div class="section-head"><h2>ABOUT US</h2></div>
       <img class="about-photo" src="https://drive.google.com/thumbnail?id=1-Dwwf19-xMVhS2EMgYgu-nBacySa4MuQ&sz=w2000" alt="SILVERNOVA LLC">
-      <div class="about-grid">
-        <div>
-          <p class="lede">Our mission is to connect Japan with overseas manufacturers of great products by building a bridge between Japan and the world, and to provide new value through these products to customers throughout Japan.</p>
-        </div>
-        <div class="ceo-card">
+      <div class="about-body">
+        <p class="lede">Our mission is to connect Japan with overseas manufacturers of great products by building a bridge between Japan and the world, and to provide new value through these products to customers throughout Japan.</p>
+        <div class="ceo-byline">
           <img class="ceo-photo" src="https://drive.google.com/thumbnail?id=1sVmvuBiWTsnvO_tuC8dNlP_7FEHoB0St&sz=w2000" alt="Taiki Ishida">
           <div class="ceo-meta">
             <div class="name">Taiki Ishida</div>
             <div class="role">CEO</div>
-            <p style="margin-top:0.8rem; font-size:0.9rem; color:var(--ink-soft)">With extensive experience in system and web application development, I provide end-to-end support from requirements gathering to system design and implementation. In addition, I bring deep expertise in data-driven service development, including data platform engineering, analytics, and ad-tech integration.</p>
+            <p>With extensive experience in system and web application development, I provide end-to-end support from requirements gathering to system design and implementation. In addition, I bring deep expertise in data-driven service development, including data platform engineering, analytics, and ad-tech integration.</p>
           </div>
         </div>
       </div>
@@ -193,9 +196,12 @@
 
       <!-- ▼ ここにクラウドファンディング・小売パートナーの実ロゴ画像を差し込んでください -->
       <div class="logo-row">
-        <img src="../logos/makuake.png" alt="Makuake">
-        <img src="../logos/greenfunding.png" alt="GREEN FUNDING">
-        <img src="../logos/campfire.png" alt="CAMPFIRE">
+        <div class="logo-group">
+          <img src="../logos/makuake.png" alt="Makuake">
+          <img src="../logos/greenfunding.png" alt="GREEN FUNDING">
+          <img src="../logos/campfire.png" alt="CAMPFIRE">
+        </div>
+        <img class="retail-logos" src="../logos/retail-partners.png" alt="Retail partners including LOFT, EDION, YAMADA, 0101 MARUI, BicCamera, Tokyu Hands, Ketaide Denki, Yamada Denki, Yodobashi Camera, ISETAN, MITSUKOSHI, and Don Quijote">
       </div>
       <!-- ▲ ここまで -->
 
