@@ -52,31 +52,43 @@
   .section-head h2 { font-size: 1.9rem; font-weight: 440; font-variation-settings: 'opsz' 40; }
   p { max-width: 62ch; color: var(--ink); }
   p.lede { color: var(--ink-soft); font-size: 1.02rem; max-width: 58ch; }
+  /* 隣に写真やカードが並ばない、単独で置かれるイントロ文（OUR PARTNERS・REFERENCE EXAMPLES）は
+     62ch/58chの制限だと右側に大きな余白ができてしまうため、より広い幅を使えるようにしています */
+  p.wide-copy, p.lede.wide-copy { max-width: 74ch; }
 
   /* ---------------- ABOUT US（[[IMAGE2_SRC]] を差し込み） ---------------- */
+  /* CEOの写真・経歴は「本文の隣に縦長カードを並べる」形だと、本文が短いときに
+     カードの下や右に不自然な余白ができてしまうため、丸い小さな写真＋短い経歴の
+     コンパクトな紹介カードにして、本文の右側に並べる（余白が出にくい）構成にしています。 */
   .about-photo { width: 100%; aspect-ratio: 21/8; object-fit: cover; border-radius: 3px; border: 1px solid var(--rule); background: var(--paper-deep); display: block; margin-bottom: 2.4rem; }
-  .about-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3rem; align-items: start; }
+  .about-grid { display: grid; grid-template-columns: 1.3fr 0.9fr; gap: 2.6rem; align-items: center; }
   @media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; } }
-  .ceo-card { border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; max-width: 240px; margin-left: auto; }
-  @media (max-width: 720px) { .ceo-card { max-width: 240px; margin-left: 0; } }
-  .ceo-photo { aspect-ratio: 4/5; width: 100%; object-fit: cover; display: block; background: var(--paper-deep); }
+  .ceo-byline { display: flex; gap: 1rem; align-items: flex-start; padding: 1.4rem; border: 1px solid var(--rule); border-radius: 3px; background: var(--paper-raised); }
+  @media (max-width: 480px) { .ceo-byline { gap: 0.8rem; padding: 1.1rem; } }
+  .ceo-photo { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; display: block; background: var(--paper-deep); flex: none; border: 1px solid var(--rule); }
   .ceo-photo[src=""] { display: none; } /* 代表者/会社の写真が未提出のときは非表示（テキストのみ表示） */
-  .ceo-meta { padding: 1.1rem 1.3rem 1.3rem; }
-  .ceo-meta .name { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 560; }
-  .ceo-meta .role { font-size: 0.82rem; color: var(--ink-faint); margin-top: 0.15rem; }
+  .ceo-meta .name { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 560; }
+  .ceo-meta .role { font-size: 0.76rem; color: var(--ink-faint); margin-top: 0.1rem; }
+  /* 経歴が長い場合でもカードが本文より大幅に高くならないよう、4行で省略しています */
+  .ceo-meta p { margin-top: 0.5rem; font-size: 0.86rem; color: var(--ink-soft); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
 
   /* ---------------- OUR SERVICES（[[IMAGE3_SRC]] を差し込み） ---------------- */
   .services-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 3rem; align-items: start; }
   @media (max-width: 720px) { .services-grid { grid-template-columns: 1fr; } }
-  .services-photo { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 3px; border: 1px solid var(--rule); background: var(--paper-deep); display: block; }
+  /* 写真の縦横比を4/5（かなり縦長）から4/3にして、右側のリストの高さに近づけています */
+  .services-photo { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 3px; border: 1px solid var(--rule); background: var(--paper-deep); display: block; }
   .service-list { display: flex; flex-direction: column; }
+  .services-intro { color: var(--ink-soft); font-size: 0.98rem; margin: 0 0 0.6rem; }
   .service-row { display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.4rem; padding: 1.7rem 0; border-top: 1px solid var(--rule); }
   .service-row:first-child { border-top: none; }
   .service-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--brand); padding-top: 0.15rem; }
   .service-row p { color: var(--ink-soft); font-size: 0.98rem; margin: 0; }
 
-  .logo-row { display: flex; flex-wrap: wrap; gap: 1.4rem; margin: 1.8rem 0 2rem; align-items: center; }
-  .logo-row img { height: 2.2rem; width: auto; opacity: 0.85; }
+  .logo-row { display: flex; flex-wrap: wrap; gap: 2.6rem; margin: 1.8rem 0 2rem; align-items: center; }
+  .logo-group { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; }
+  .logo-group img { height: 3.6rem; width: auto; opacity: 0.92; }
+  .retail-logos { height: auto; width: auto; max-width: 360px; max-height: 150px; opacity: 0.92; border-radius: 3px; }
+  @media (max-width: 720px) { .retail-logos { max-width: 100%; } }
   .partner-cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-top: 2.2rem; }
   @media (max-width: 720px) { .partner-cats { grid-template-columns: repeat(2, 1fr); } }
   .partner-cat { border-top: 1px solid var(--rule); padding-top: 0.8rem; }
@@ -95,14 +107,17 @@
   /* ---------------- REFERENCE EXAMPLES（会社共通の固定画像・1回だけ差し替え） ---------------- */
   .ref-block { margin-top: 2.8rem; }
   .ref-heading { font-size: 1.25rem; font-weight: 500; font-family: 'Archivo', sans-serif; margin-bottom: 0.9rem; }
-  .ref-main { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.8rem; align-items: stretch; }
+  .ref-main { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.8rem; align-items: start; }
   @media (max-width: 720px) { .ref-main { grid-template-columns: 1fr; } }
   .ref-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; align-content: start; }
   @media (max-width: 480px) { .ref-thumbs { grid-template-columns: 1fr; } }
   .ref-thumbs figure { margin: 0; }
   .ref-thumbs img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 3px; border: 1px solid var(--rule); display: block; background: var(--paper-deep); }
   .ref-thumbs figcaption { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.55rem; line-height: 1.4; }
-  .ref-product { width: 100%; height: 100%; min-height: 220px; object-fit: cover; border-radius: 3px; border: 1px solid var(--rule); background: var(--paper-deep); display: block; }
+  /* 以前は縦のカラム高さいっぱいに引き伸ばしていましたが、サムネイル3枚の列より
+     大幅に縦長になってしまい、左側に大きな空白ができていたため、
+     横長（16/9）の固定比率にして高さの差が出にくいようにしています */
+  .ref-product { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 3px; border: 1px solid var(--rule); background: var(--paper-deep); display: block; }
 
   /* ---------------- TOKYO INTERNATIONAL GIFT SHOW（固定画像） ---------------- */
   .giftshow-block { margin-top: 2.6rem; display: grid; grid-template-columns: 1fr 1.4fr; gap: 0; align-items: center; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
@@ -156,15 +171,13 @@
       <div class="section-head"><h2>ABOUT US</h2></div>
       <img class="about-photo" src="[[IMAGE2_SRC]]" alt="[[COMPANY_NAME]]">
       <div class="about-grid">
-        <div>
-          <p class="lede">Our mission is to connect Japan with overseas manufacturers of great products by building a bridge between Japan and the world, and to provide new value through these products to customers throughout Japan.</p>
-        </div>
-        <div class="ceo-card">
+        <p class="lede">Our mission is to connect Japan with overseas manufacturers of great products by building a bridge between Japan and the world, and to provide new value through these products to customers throughout Japan.</p>
+        <div class="ceo-byline">
           <img class="ceo-photo" src="[[PHOTO_SRC]]" alt="[[CEO_NAME]]">
           <div class="ceo-meta">
             <div class="name">[[CEO_NAME]]</div>
             <div class="role">CEO</div>
-            <p style="margin-top:0.8rem; font-size:0.9rem; color:var(--ink-soft)">[[CEO_BIO]]</p>
+            <p>[[CEO_BIO]]</p>
           </div>
         </div>
       </div>
@@ -177,6 +190,7 @@
       <div class="services-grid">
         <img class="services-photo" src="[[IMAGE3_SRC]]" alt="[[COMPANY_NAME]] services">
         <div class="service-list">
+          <p class="services-intro">We have been running businesses for long period of time and value the following Corporate Identities.</p>
           <div class="service-row"><div class="service-num">01</div><p>Be a fastest distributor in Japan.</p></div>
           <div class="service-row"><div class="service-num">02</div><p>Built a long-term relationship.</p></div>
           <div class="service-row"><div class="service-num">03</div><p>Be a provider of offering the best way to enter and expand into the Japanese market.</p></div>
@@ -188,14 +202,17 @@
   <section id="partners">
     <div class="wrap">
       <div class="section-head"><h2>OUR PARTNERS</h2></div>
-      <p class="lede">We are the "BEST TEAM for promoting your products in Japan."</p>
-      <p>Our import and wholesale/retail division is working in the special team organization. This team is the best successful and trusted in the Japanese importing industry. This team has a strong track record of success and credibility in the Japanese import industry.</p>
+      <p class="lede wide-copy">We are the "BEST TEAM for promoting your products in Japan."</p>
+      <p class="wide-copy">Our import and wholesale/retail division is working in the special team organization. This team is the best successful and trusted in the Japanese importing industry. This team has a strong track record of success and credibility in the Japanese import industry.</p>
 
       <!-- ▼ ここにクラウドファンディング・小売パートナーの実ロゴ画像を差し込んでください -->
       <div class="logo-row">
-        <img src="../logos/makuake.png" alt="Makuake">
-        <img src="../logos/greenfunding.png" alt="GREEN FUNDING">
-        <img src="../logos/campfire.png" alt="CAMPFIRE">
+        <div class="logo-group">
+          <img src="../logos/makuake.png" alt="Makuake">
+          <img src="../logos/greenfunding.png" alt="GREEN FUNDING">
+          <img src="../logos/campfire.png" alt="CAMPFIRE">
+        </div>
+        <img class="retail-logos" src="../logos/retail-partners.png" alt="Retail partners including LOFT, EDION, YAMADA, 0101 MARUI, BicCamera, Tokyu Hands, Ketaide Denki, Yamada Denki, Yodobashi Camera, ISETAN, MITSUKOSHI, and Don Quijote">
       </div>
       <!-- ▲ ここまで -->
 
@@ -229,7 +246,7 @@
       <!-- ▼ REFERENCE EXAMPLES: 商品・メディア掲載の実績画像（全クライアント共通・固定資産）を差し込んでください -->
       <div class="ref-block">
         <h3 class="ref-heading">REFERENCE EXAMPLES</h3>
-        <p>TOWNEW automatic trash cans in all product series have been extremely successful in multiple crowdfunding projects. We have expanded our sales channels to major mass retailers by increasing awareness through TV and other media outlets and influencers.</p>
+        <p class="wide-copy">TOWNEW automatic trash cans in all product series have been extremely successful in multiple crowdfunding projects. We have expanded our sales channels to major mass retailers by increasing awareness through TV and other media outlets and influencers.</p>
 
         <div class="ref-main">
           <div class="ref-thumbs">
