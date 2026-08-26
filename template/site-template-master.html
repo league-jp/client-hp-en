@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{COMPANY_NAME}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,440;9..144,560&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4f7f9;
+    --paper-raised: #e9f0f4;
+    --paper-deep: #dde9ee;
+    --ink: #131c24;
+    --ink-soft: #48596a;
+    --ink-faint: #8598a5;
+    --rule: #cfdde3;
+    --brand: {{ACCENT_COLOR}};       /* クライアントの「基調色」をそのままCSS変数に流し込む */
+    --brand-light: {{ACCENT_COLOR}};
+    --brand-wash: color-mix(in srgb, {{ACCENT_COLOR}} 16%, var(--paper));
+    --warm: #b9803a;
+  }
+  * { box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; } }
+  body { background: var(--paper); color: var(--ink); font-family: 'Archivo', 'Hiragino Sans', sans-serif; line-height: 1.7; -webkit-font-smoothing: antialiased; margin: 0; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 2rem; }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+  h1, h2, h3 { font-family: 'Fraunces', serif; color: var(--ink); margin: 0; }
+  a { color: var(--brand); }
+
+  nav { border-bottom: 1px solid var(--rule); position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(6px); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 0; }
+  .wordmark { display: flex; align-items: center; gap: 0.6rem; font-family: 'Fraunces', serif; font-weight: 560; font-size: 1.15rem; color: var(--ink); }
+  .wordmark img { height: 1.6rem; width: auto; }
+  .navlinks { display: flex; gap: 1.8rem; font-size: 0.86rem; }
+  .navlinks a { color: var(--ink-soft); text-decoration: none; }
+  @media (max-width: 640px) { .navlinks { display: none; } }
+
+  .hero { position: relative; padding: 5.5rem 0 5rem; overflow: hidden; }
+  .hero-inner { position: relative; z-index: 1; max-width: 640px; }
+  .hero h1 { font-size: clamp(2.6rem, 6.4vw, 4.4rem); font-weight: 440; font-variation-settings: 'opsz' 90; line-height: 1.08; letter-spacing: -0.01em; margin: 1.6rem 0 1.5rem; }
+  .hero p.dek { font-size: 1.08rem; color: var(--ink-soft); max-width: 46ch; }
+
+  section { padding: 4.4rem 0; border-top: 1px solid var(--rule); }
+  .section-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.2rem; }
+  .section-head h2 { font-size: 1.9rem; font-weight: 440; font-variation-settings: 'opsz' 40; }
+  p { max-width: 62ch; color: var(--ink); }
+  p.lede { color: var(--ink-soft); font-size: 1.02rem; max-width: 58ch; }
+
+  .about-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3rem; align-items: start; }
+  @media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; } }
+  .ceo-card { border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .ceo-photo { aspect-ratio: 4/5; width: 100%; object-fit: cover; display: block; background: var(--paper-deep); }
+  .ceo-meta { padding: 1.1rem 1.3rem 1.3rem; }
+  .ceo-meta .name { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 560; }
+  .ceo-meta .role { font-size: 0.82rem; color: var(--ink-faint); margin-top: 0.15rem; }
+
+  .service-list { display: flex; flex-direction: column; }
+  .service-row { display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.4rem; padding: 1.7rem 0; border-top: 1px solid var(--rule); }
+  .service-row:first-child { border-top: none; }
+  .service-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--brand); padding-top: 0.15rem; }
+  .service-row p { color: var(--ink-soft); font-size: 0.98rem; margin: 0; }
+
+  .logo-row { display: flex; flex-wrap: wrap; gap: 1.4rem; margin: 1.8rem 0 2rem; align-items: center; }
+  .logo-row img { height: 2.2rem; width: auto; opacity: 0.85; }
+  .partner-cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-top: 2.2rem; }
+  @media (max-width: 720px) { .partner-cats { grid-template-columns: repeat(2, 1fr); } }
+  .partner-cat { border-top: 1px solid var(--rule); padding-top: 0.8rem; }
+  .partner-cat .k { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+  .partner-cat .v { font-size: 0.92rem; margin-top: 0.3rem; color: var(--ink); }
+
+  .process-track { position: relative; }
+  .process-step { display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.4rem; padding-bottom: 2.6rem; position: relative; }
+  .process-step:last-child { padding-bottom: 0; }
+  .process-step::before { content: ''; position: absolute; left: 1.55rem; top: 2.6rem; bottom: 0; width: 1px; background: var(--rule); }
+  .process-step:last-child::before { display: none; }
+  .process-num { width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 1px solid var(--brand); color: var(--brand); font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; background: var(--paper); position: relative; z-index: 1; }
+  .process-step h3 { font-size: 1.1rem; font-weight: 500; font-family: 'Archivo', sans-serif; margin-bottom: 0.4rem; }
+  .process-step p { color: var(--ink-soft); font-size: 0.95rem; margin: 0; }
+
+  .case-card { margin-top: 2.6rem; border: 1px solid var(--rule); border-radius: 3px; display: grid; grid-template-columns: 1fr 1.4fr; }
+  @media (max-width: 720px) { .case-card { grid-template-columns: 1fr; } }
+  .case-visual img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 160px; background: var(--paper-deep); }
+  .case-body { padding: 1.6rem 1.8rem; }
+  .case-body .label { display: block; margin-bottom: 0.5rem; }
+  .case-body p { font-size: 0.93rem; color: var(--ink-soft); margin: 0; }
+  .case-stats { display: flex; gap: 1.8rem; margin-top: 1rem; }
+  .case-stat .n { font-family: 'Fraunces', serif; font-weight: 560; font-size: 1.4rem; color: var(--ink); }
+  .case-stat .k { font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .profile-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+  .profile-table tr { border-top: 1px solid var(--rule); }
+  .profile-table tr:first-child { border-top: none; }
+  .profile-table th, .profile-table td { text-align: left; padding: 0.95rem 0; vertical-align: top; }
+  .profile-table th { font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-faint); width: 11rem; white-space: nowrap; }
+  .profile-table td { color: var(--ink); font-size: 0.98rem; }
+
+  footer { border-top: 1px solid var(--rule); padding: 2.2rem 0 3rem; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.8rem; }
+  footer .fine { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <span class="wordmark"><img src="{{LOGO_SRC}}" alt="{{COMPANY_NAME}} logo">{{COMPANY_NAME}}</span>
+    <div class="navlinks">
+      <a href="#about">ABOUT US</a>
+      <a href="#services">OUR SERVICES</a>
+      <a href="#partners">OUR PARTNERS</a>
+      <a href="#process">MARKET DEVELOPMENT PROCESS</a>
+      <a href="#profile">COMPANY PROFILE</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="label">{{FOUNDED_YEAR}} — JAPAN</div>
+    <h1>{{SLOGAN}}</h1>
+    <p class="dek">Making it easier and smoother for foreign manufacturers to enter the Japanese market.</p>
+  </div>
+</header>
+
+<main>
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head"><h2>ABOUT US</h2></div>
+      <div class="about-grid">
+        <div>
+          <p class="lede">Our mission is to connect Japan with overseas manufacturers of great products by building a bridge between Japan and the world, and to provide new value through these products to customers throughout Japan.</p>
+        </div>
+        <div class="ceo-card">
+          <img class="ceo-photo" src="{{PHOTO_SRC}}" alt="{{CEO_NAME}}">
+          <div class="ceo-meta">
+            <div class="name">{{CEO_NAME}}</div>
+            <div class="role">CEO</div>
+            <p style="margin-top:0.8rem; font-size:0.9rem; color:var(--ink-soft)">{{CEO_BIO}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head"><h2>OUR SERVICES</h2></div>
+      <div class="service-list">
+        <div class="service-row"><div class="service-num">01</div><p>Be a fastest distributor in Japan.</p></div>
+        <div class="service-row"><div class="service-num">02</div><p>Built a long-term relationship.</p></div>
+        <div class="service-row"><div class="service-num">03</div><p>Be a provider of offering the best way to enter and expand into the Japanese market.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="partners">
+    <div class="wrap">
+      <div class="section-head"><h2>OUR PARTNERS</h2></div>
+      <p class="lede">We are the "BEST TEAM for promoting your products in Japan."</p>
+      <p>Our import and wholesale/retail division is working in the special team organization. This team is the best successful and trusted in the Japanese importing industry. This team has a strong track record of success and credibility in the Japanese import industry.</p>
+
+      <!-- ▼ ここにクラウドファンディング・小売パートナーの実ロゴ画像を差し込んでください -->
+      <div class="logo-row">
+        <img src="logos/makuake.png" alt="Makuake">
+        <img src="logos/greenfunding.png" alt="GREEN FUNDING">
+        <img src="logos/campfire.png" alt="CAMPFIRE">
+      </div>
+      <!-- ▲ ここまで -->
+
+      <div class="partner-cats">
+        <div class="partner-cat"><div class="k">Retail</div><div class="v">National & regional chains</div></div>
+        <div class="partner-cat"><div class="k">Wholesale</div><div class="v">Established distributor network</div></div>
+        <div class="partner-cat"><div class="k">Media</div><div class="v">Influencer & press relationships</div></div>
+        <div class="partner-cat"><div class="k">Social</div><div class="v">SNS promotion partners</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head"><h2>MARKET DEVELOPMENT PROCESS</h2></div>
+      <div class="process-track">
+        <div class="process-step">
+          <div class="process-num">1</div>
+          <div><h3>Market Entry Strategy</h3><p>Create a track record of successful sales. Raise a fund for marketing of general sales.</p></div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">2</div>
+          <div><h3>Media Strategy</h3><p>Use the following to rapidly spread awareness: TV show, WEB media, Magazine, Press release, SNS (YouTube, IG, FB etc.), Influencers, Advertisement.</p></div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">3</div>
+          <div><h3>Sales Expansion</h3><p>Expand sales by leveraging successful crowdfunding results and the effect of increased public awareness through media approach.</p></div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-visual"><img src="images/townew-case.jpg" alt="TOWNEW case study"></div>
+        <div class="case-body">
+          <span class="label">Track record</span>
+          <p>TOWNEW automatic trash cans in all product series have been extremely successful in multiple crowdfunding projects. We have expanded our sales channels to major mass retailers by increasing awareness through TV and other media outlets and influencers.</p>
+          <p style="margin-top:0.8rem">We will cover all expenses, so there is nothing for you to do. The show attracts over 300,000 visitors in 3 days, including buyers from famous Japanese retailers and wholesalers.</p>
+          <div class="case-stats">
+            <div class="case-stat"><div class="n">600+</div><div class="k">Retail locations</div></div>
+            <div class="case-stat"><div class="n">300K+</div><div class="k">Gift Show visitors</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="profile">
+    <div class="wrap">
+      <div class="section-head"><h2>COMPANY PROFILE</h2></div>
+      <p class="lede">Let's develop Japanese market with us!</p>
+      <table class="profile-table">
+        <tr><th>Company name</th><td>{{COMPANY_NAME}}</td></tr>
+        <tr><th>Representative</th><td>{{CEO_NAME}}</td></tr>
+        <tr><th>Address</th><td>{{ADDRESS}}</td></tr>
+        <tr><th>Founded</th><td>{{FOUNDED_YEAR}}</td></tr>
+        <tr><th>Capital</th><td>{{CAPITAL}}</td></tr>
+        <tr><th>Business</th><td>{{BUSINESS_OVERVIEW}}</td></tr>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="wordmark"><img src="{{LOGO_SRC}}" alt="{{COMPANY_NAME}} logo">{{COMPANY_NAME}}</span>
+  <span class="fine">© {{COMPANY_NAME}}. All Rights Reserved.</span>
+</footer>
+
+</body>
+</html>
