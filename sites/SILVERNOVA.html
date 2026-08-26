@@ -57,7 +57,8 @@
   .about-photo { width: 100%; aspect-ratio: 21/8; object-fit: cover; border-radius: 3px; border: 1px solid var(--rule); background: var(--paper-deep); display: block; margin-bottom: 2.4rem; }
   .about-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3rem; align-items: start; }
   @media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; } }
-  .ceo-card { border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .ceo-card { border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; max-width: 240px; margin-left: auto; }
+  @media (max-width: 720px) { .ceo-card { max-width: 240px; margin-left: 0; } }
   .ceo-photo { aspect-ratio: 4/5; width: 100%; object-fit: cover; display: block; background: var(--paper-deep); }
   .ceo-photo[src=""] { display: none; } /* 代表者/会社の写真が未提出のときは非表示（テキストのみ表示） */
   .ceo-meta { padding: 1.1rem 1.3rem 1.3rem; }
@@ -192,9 +193,9 @@
 
       <!-- ▼ ここにクラウドファンディング・小売パートナーの実ロゴ画像を差し込んでください -->
       <div class="logo-row">
-        <img src="logos/makuake.png" alt="Makuake">
-        <img src="logos/greenfunding.png" alt="GREEN FUNDING">
-        <img src="logos/campfire.png" alt="CAMPFIRE">
+        <img src="../logos/makuake.png" alt="Makuake">
+        <img src="../logos/greenfunding.png" alt="GREEN FUNDING">
+        <img src="../logos/campfire.png" alt="CAMPFIRE">
       </div>
       <!-- ▲ ここまで -->
 
@@ -233,26 +234,26 @@
         <div class="ref-main">
           <div class="ref-thumbs">
             <figure>
-              <img src="images/case-thumb1.jpg" alt="Crowdfunding project record">
+              <img src="../images/case-thumb1.jpg" alt="Crowdfunding project record">
               <figcaption>Multiple crowdfunding projects with all series</figcaption>
             </figure>
             <figure>
-              <img src="images/case-thumb2.jpg" alt="Media and influencer coverage">
+              <img src="../images/case-thumb2.jpg" alt="Media and influencer coverage">
               <figcaption>Publication record by many media and influencers</figcaption>
             </figure>
             <figure>
-              <img src="images/case-thumb3.jpg" alt="Retail store expansion">
+              <img src="../images/case-thumb3.jpg" alt="Retail store expansion">
               <figcaption>Over 600 shops. Expand sales at famous retailers</figcaption>
             </figure>
           </div>
-          <img class="ref-product" src="images/townew-case.jpg" alt="TOWNEW product photo">
+          <img class="ref-product" src="../images/townew-case.jpg" alt="TOWNEW product photo">
         </div>
       </div>
       <!-- ▲ ここまで -->
 
       <!-- ▼ TOKYO INTERNATIONAL GIFT SHOW: 会場写真（全クライアント共通・固定資産）を差し込んでください -->
       <div class="giftshow-block">
-        <img src="images/tokyo-gift-show.jpg" alt="Tokyo International Gift Show">
+        <img src="../images/tokyo-gift-show.jpg" alt="Tokyo International Gift Show">
         <div class="giftshow-body">
           <span class="label">Event</span>
           <h3>TOKYO INTERNATIONAL GIFT SHOW</h3>
