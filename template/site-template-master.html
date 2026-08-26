@@ -33,6 +33,7 @@
   .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 0; }
   .wordmark { display: flex; align-items: center; gap: 0.6rem; font-family: 'Fraunces', serif; font-weight: 560; font-size: 1.15rem; color: var(--ink); }
   .wordmark img { height: 1.6rem; width: auto; }
+  .wordmark img[src=""] { display: none; } /* 会社ロゴが未提出のときは非表示（社名テキストのみ表示） */
   .navlinks { display: flex; gap: 1.8rem; font-size: 0.86rem; }
   .navlinks a { color: var(--ink-soft); text-decoration: none; }
   @media (max-width: 640px) { .navlinks { display: none; } }
@@ -58,6 +59,7 @@
   @media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; } }
   .ceo-card { border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
   .ceo-photo { aspect-ratio: 4/5; width: 100%; object-fit: cover; display: block; background: var(--paper-deep); }
+  .ceo-photo[src=""] { display: none; } /* 代表者/会社の写真が未提出のときは非表示（テキストのみ表示） */
   .ceo-meta { padding: 1.1rem 1.3rem 1.3rem; }
   .ceo-meta .name { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 560; }
   .ceo-meta .role { font-size: 0.82rem; color: var(--ink-faint); margin-top: 0.15rem; }
@@ -116,6 +118,8 @@
   .profile-table th, .profile-table td { text-align: left; padding: 0.95rem 0; vertical-align: top; }
   .profile-table th { font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-faint); width: 11rem; white-space: nowrap; }
   .profile-table td { color: var(--ink); font-size: 0.98rem; }
+  .profile-table tr.opt-row:has(td:empty) { display: none; } /* 資本金が未提出のときは行ごと非表示 */
+  .profile-table td.opt-fallback:empty::before { content: "Import / Wholesale / Retail business"; } /* 事業概要が未提出のときのデフォルト文言 */
 
   footer { border-top: 1px solid var(--rule); padding: 2.2rem 0 3rem; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.8rem; }
   footer .fine { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); }
@@ -268,8 +272,8 @@
         <tr><th>Representative</th><td>{{CEO_NAME}}</td></tr>
         <tr><th>Address</th><td>{{ADDRESS}}</td></tr>
         <tr><th>Founded</th><td>{{FOUNDED_YEAR}}</td></tr>
-        <tr><th>Capital</th><td>{{CAPITAL}}</td></tr>
-        <tr><th>Business</th><td>{{BUSINESS_OVERVIEW}}</td></tr>
+        <tr class="opt-row"><th>Capital</th><td>{{CAPITAL}}</td></tr>
+        <tr><th>Business</th><td class="opt-fallback">{{BUSINESS_OVERVIEW}}</td></tr>
       </table>
     </div>
   </section>
