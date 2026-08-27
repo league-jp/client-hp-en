@@ -1,0 +1,400 @@
+<title>ドメイン移管ガイド（社内手順）</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --paper: #faf6ef; --paper-raised: #f2ece0; --ink: #1e2530; --ink-soft: #4d5560;
+    --ink-faint: #8a8f97; --rule: #ddd4c3; --accent: #b8451f; --accent-wash: #f4e3d8;
+    --teal: #33586b; --teal-soft: #cfe0e6; --ok: #3f6b4a; --ok-wash: #e1ecdf;
+    --code-bg: #232120; --code-fg: #e9e2d2; --code-comment: #9a9082;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #181510; --paper-raised: #211d16; --ink: #ede6d8; --ink-soft: #b8ae9c;
+      --ink-faint: #7d7466; --rule: #3a3427; --accent: #e08355; --accent-wash: #2c2118;
+      --teal: #8fb8c9; --teal-soft: #223540; --ok: #7fb28c; --ok-wash: #1f2b20;
+      --code-bg: #100f0d; --code-fg: #e9e2d2;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #181510; --paper-raised: #211d16; --ink: #ede6d8; --ink-soft: #b8ae9c;
+    --ink-faint: #7d7466; --rule: #3a3427; --accent: #e08355; --accent-wash: #2c2118;
+    --teal: #8fb8c9; --teal-soft: #223540; --ok: #7fb28c; --ok-wash: #1f2b20;
+    --code-bg: #100f0d; --code-fg: #e9e2d2;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    line-height: 1.85; font-size: 16px; -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 800px; margin: 0 auto; padding: 4.5rem 1.75rem 6rem; }
+
+  .cover {
+    border: 1px solid var(--rule); border-radius: 2px; padding: 2.5rem 2.25rem;
+    margin-bottom: 3rem; background: linear-gradient(180deg, var(--paper-raised), var(--paper));
+  }
+  .cover-eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); display: flex; justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .cover h1 {
+    font-family: 'Zen Old Mincho', serif; font-weight: 600; font-size: clamp(1.6rem, 4vw, 2.1rem);
+    line-height: 1.5; margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  .cover p.lede { color: var(--ink-soft); font-size: 0.98rem; max-width: 54ch; margin: 0 0 1.6rem; }
+  .stack-summary { display: flex; flex-wrap: wrap; gap: 0.5rem; border-top: 1px solid var(--rule); padding-top: 1.1rem; }
+  .stack-chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.76rem;
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 20px;
+    padding: 0.3rem 0.8rem; color: var(--ink-soft);
+  }
+  .stack-chip b { color: var(--accent); }
+
+  h2.section-title { font-family: 'Zen Old Mincho', serif; font-weight: 600; font-size: 1.25rem; margin: 0 0 1.2rem; }
+  section.meta-section { margin-bottom: 3rem; }
+  p { margin: 0 0 1rem; max-width: 66ch; color: var(--ink); }
+  p.tight { margin-bottom: 0; }
+  .lede-block { color: var(--ink-soft); }
+  strong { font-weight: 700; }
+  a { color: var(--teal); text-decoration-color: var(--teal-soft); text-underline-offset: 3px; }
+  em.term {
+    font-style: normal; font-family: 'JetBrains Mono', monospace; font-size: 0.88em;
+    background: var(--accent-wash); color: var(--accent); padding: 0.05em 0.4em; border-radius: 3px;
+  }
+
+  .callout {
+    border-left: 3px solid var(--teal); background: var(--teal-soft); padding: 0.95rem 1.2rem;
+    border-radius: 0 4px 4px 0; margin: 1.2rem 0;
+  }
+  .callout p { margin: 0; color: var(--ink); max-width: 62ch; font-size: 0.94rem; }
+  .callout p + p { margin-top: 0.6rem; }
+
+  .table-wrap { overflow-x: auto; margin: 1.4rem 0; border: 1px solid var(--rule); border-radius: 6px; }
+  table { border-collapse: collapse; width: 100%; min-width: 600px; font-size: 0.85rem; }
+  thead th {
+    text-align: left; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 0.7rem;
+    letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint);
+    padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--rule); background: var(--paper-raised);
+  }
+  tbody td { padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--rule); color: var(--ink-soft); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.field-name { color: var(--ink); font-weight: 500; white-space: nowrap; }
+  td code, p code {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: var(--paper-raised);
+    padding: 0.1em 0.35em; border-radius: 3px; color: var(--teal);
+  }
+
+  .code-card { margin: 1.3rem 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--rule); }
+  .code-card-head {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--paper-raised); padding: 0.6rem 1rem; border-bottom: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-soft);
+  }
+  .code-card-head .fname { color: var(--ink); font-weight: 500; }
+  .code-card-head .tag {
+    font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase;
+    background: var(--accent-wash); color: var(--accent); padding: 0.15rem 0.5rem; border-radius: 3px;
+  }
+  pre.code {
+    margin: 0; background: var(--code-bg); color: var(--code-fg); padding: 1.1rem 1.2rem;
+    overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.65;
+  }
+  pre.code .c { color: var(--code-comment); }
+
+  .phase { margin-bottom: 3.4rem; }
+  .phase-head {
+    display: flex; align-items: baseline; gap: 0.9rem; margin-bottom: 0.3rem;
+    padding-bottom: 1rem; border-bottom: 2px solid var(--ink);
+  }
+  .phase-num { font-family: 'Zen Old Mincho', serif; font-size: 2rem; color: var(--accent); line-height: 1; }
+  .phase-title-wrap { flex: 1; }
+  .phase-head h3 { font-family: 'Zen Old Mincho', serif; font-weight: 600; font-size: 1.3rem; margin: 0 0 0.25rem; }
+  .phase-time { font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-faint); }
+
+  .tasklist { list-style: none; margin: 1.3rem 0; padding: 0; counter-reset: task; }
+  .tasklist > li { counter-increment: task; position: relative; padding: 0.15rem 0 0.15rem 2.2rem; margin-bottom: 1.1rem; }
+  .tasklist > li::before {
+    content: counter(task); position: absolute; left: 0; top: 0.05rem;
+    width: 1.5rem; height: 1.5rem; border-radius: 4px; background: var(--paper-raised);
+    border: 1px solid var(--rule); color: var(--ink-soft); font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; display: flex; align-items: center; justify-content: center;
+  }
+  .tasklist h4 { margin: 0 0 0.3rem; font-size: 0.98rem; font-weight: 700; }
+  .tasklist p { margin: 0 0 0.4rem; font-size: 0.9rem; color: var(--ink-soft); }
+  .tasklist ul.sub { margin: 0.4rem 0 0; padding-left: 1.2rem; }
+  .tasklist ul.sub li { font-size: 0.87rem; color: var(--ink-soft); margin-bottom: 0.25rem; }
+
+  .checkpoint {
+    border-left: 3px solid var(--ok); background: var(--ok-wash); padding: 0.9rem 1.15rem;
+    border-radius: 0 4px 4px 0; margin: 1.2rem 0 0;
+  }
+  .checkpoint p { margin: 0; color: var(--ink); font-size: 0.92rem; }
+  .checkpoint .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--ok); display: block; margin-bottom: 0.35rem;
+  }
+  .pitfall {
+    border-left: 3px solid var(--accent); background: var(--accent-wash); padding: 0.9rem 1.15rem;
+    border-radius: 0 4px 4px 0; margin: 1.2rem 0 0;
+  }
+  .pitfall p { margin: 0; color: var(--ink); font-size: 0.92rem; }
+  .pitfall .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.35rem;
+  }
+
+  .msg-template {
+    background: var(--paper-raised); border: 1px solid var(--rule); border-radius: 6px;
+    padding: 1.1rem 1.3rem; margin: 1.2rem 0; font-size: 0.88rem; color: var(--ink-soft);
+    white-space: pre-wrap; font-family: 'JetBrains Mono', monospace; line-height: 1.7;
+  }
+
+  footer { border-top: 1px solid var(--rule); padding-top: 1.4rem; font-size: 0.8rem; color: var(--ink-faint); }
+  footer a { color: var(--ink-faint); }
+</style>
+
+<div class="page">
+
+  <div class="cover">
+    <div class="cover-eyebrow"><span>MIGRATION GUIDE</span><span>LEAGUE INC. 社内用</span></div>
+    <h1>クライアント自己管理への移管<br>対応手順書</h1>
+    <p class="lede">クライアントが「ページを自社で管理したい」と希望された場合の、League側の対応手順です。Leagueが行うのは<strong>「正しく動く状態のファイル一式をZIPにまとめて、クライアントへ送付する」ところまで</strong>です。GitHubアカウントやリポジトリの作成はLeagueでは行いません。そこから先、GitHubアカウントの用意も含め、実際にどう公開するか（3パターン）はクライアント側ですべて選んで実施していただきます。クライアントへの依頼内容は、別紙の「クライアント依頼手順書」を送付してください。フェーズ2・4は、<code>hp-en</code>リポジトリに用意した専用スキル（Claude Codeのプロジェクトスキル）で実行します。手作業でのコピー・パス書き換えは行いません。</p>
+    <div class="stack-summary">
+      <span class="stack-chip"><b>現状</b> hp-en共有リポジトリ内の1ファイル</span>
+      <span class="stack-chip"><b>Leagueの担当範囲</b> ファイル一式をZIPにして送付するまで</span>
+      <span class="stack-chip"><b>フェーズ2・4</b> hp-enのプロジェクトスキルで自動実行</span>
+      <span class="stack-chip"><b>移管後</b> GitHubアカウント作成〜公開方法の選択・実施はすべてクライアント</span>
+    </div>
+  </div>
+
+  <section class="meta-section">
+    <h2 class="section-title">前提知識：なぜローカルでファイルをまとめる作業が必要か</h2>
+    <p>現在、全クライアントのページは <code>hp-en</code> という1つの共有リポジトリの中に、<code>sites/carrirare.html</code> のように<strong>1ファイルずつ同居</strong>しており、画像も共有の <code>images/</code>・<code>logos/</code> フォルダを他クライアントと共用しています。このままではクライアントにファイルだけを個別に渡すことができないため（GitHubのアクセス権自体は渡さない方針のため、なおさら）、<strong>対象クライアントの分だけを抜き出し、単体で正しく動く1つのフォルダにまとめる作業が、どのパターンを選ばれる場合でも共通の下準備として必ず必要</strong>になります（フェーズ2）。この作業はLeague担当者のPC上でローカルに行うだけで完結し、GitHub上に新しいリポジトリを作る必要はありません。</p>
+    <div class="callout">
+      <p><strong>Leagueの作業は、ZIPを渡すところで完全に終わります。</strong> 以前の案では「独自ドメインだけ希望」「GitHubごと移管」で対応が分岐し、さらにその後の案でも「League名義でリポジトリを作って渡す」工程がありましたが、この見直しで、League名義のGitHubリポジトリは一切作成しません。Leagueは常に「ローカルでファイル一式を整える→ZIPにしてクライアントへ送付する」だけを行い、GitHubアカウントの作成から公開方法の選択・設定まで、そこから先はすべてクライアント側の判断・実施に委ねます。これにより、クライアントとの往復のやり取りやLeague側の作業を最小限に抑えられます。</p>
+      <p><strong>フェーズ2（ファイル書き出し）とフェーズ4（旧URLの案内ページ設置）は、手作業をやめて<code>hp-en</code>リポジトリのプロジェクトスキルで実行します。</strong> Claude Codeで <code>hp-en</code> を開き、対象クライアントのスラッグ（例：<code>ykn</code>）を指定してスキルを呼び出すだけで、コピー・パス書き換え・整合性チェック・ZIP化までを一度に行います。手順の内容自体は変わりませんが、実行者が手でファイルを操作しないため、パスの向きを間違える・他クライアントのファイルを混ぜるといった従来のミスが起きにくくなっています。</p>
+    </div>
+  </section>
+
+  <section class="meta-section">
+    <h2 class="section-title">移管後にクライアントが選べる3パターン</h2>
+    <p>いずれも、League がフェーズ3で送付するZIP（<code>index.html</code>＋<code>images/</code>＋<code>logos/</code>）の中身をそのまま使えます。相対パスの静的HTMLだけで作られているため、特別な変換をしなくても3パターンすべてに対応できます。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>パターン</th><th>URLの例</th><th>クライアントが追加で行うこと</th><th>費用</th></tr></thead>
+        <tbody>
+          <tr><td class="field-name">1：github.ioで公開</td><td><code>username.github.io/repo名/</code></td><td>GitHub Pagesを有効にするだけ</td><td>無料</td></tr>
+          <tr><td class="field-name">2：GitHubに独自ドメイン設定</td><td>クライアント所有ドメイン</td><td>GitHub Pagesを有効化＋DNS設定</td><td>ドメイン代のみ</td></tr>
+          <tr><td class="field-name">3：他社サーバーへ移設</td><td>クライアント所有ドメイン</td><td>ファイルをサーバーへアップロード＋DNS設定</td><td>ドメイン代＋サーバー代</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tight" style="margin-bottom:0">この3パターンの具体的な手順は、クライアント依頼手順書に記載済みです。Leagueが代行する工程ではありませんが、クライアントから問い合わせがあった場合に内容を把握しておけるよう、依頼手順書の内容にも目を通しておいてください。</p>
+  </section>
+
+  <!-- PHASE 1 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">01</span>
+      <div class="phase-title-wrap">
+        <h3>ヒアリング：送付方法と希望を確認する</h3>
+        <span class="phase-time">目安 5分〜（クライアントからの返信待ちあり）</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>「クライアント依頼手順書」を送付する</h4>
+        <p>別紙の依頼手順書をクライアントに送ります。この時点でGitHubアカウントの有無やユーザー名を確認する必要はありません（ZIPで渡すだけなので、League側は相手のアカウント情報を一切必要としません）。ZIPの送付先メールアドレスの確認と、移管後にどのパターンで公開したいかの希望（決まっていなくても可）を回答してもらえば十分です。</p>
+      </li>
+      <li>
+        <h4>回答が揃ったらフェーズ2へ進む</h4>
+        <p>送付先が確認できたら、次のフェーズに進みます。</p>
+      </li>
+    </ol>
+    <div class="checkpoint">
+      <span class="label">この時点でできていること</span>
+      <p>ZIPの送付先と、（分かれば）希望する公開パターンが確認できている状態。</p>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">02</span>
+      <div class="phase-title-wrap">
+        <h3>ローカルにファイル一式を書き出す（<code>handoff-package</code>スキルで実行）</h3>
+        <span class="phase-time">目安 3〜5分（+ 目視確認）</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>Claude Codeで<code>hp-en</code>リポジトリを開き、スキルを呼び出す</h4>
+        <p>対象クライアントのファイル名（<code>sites/</code>配下、例：<code>ykn.html</code>）を指定して、<code>/handoff-package</code>スキルを実行します。<code>sites/</code>プレフィックスや<code>.html</code>拡張子は付けても付けなくても構いません。</p>
+        <div class="code-card">
+          <div class="code-card-head"><span class="fname">Claude Codeでの実行例</span><span class="tag">SLASH COMMAND</span></div>
+          <pre class="code">/handoff-package ykn.html</pre>
+        </div>
+      </li>
+      <li>
+        <h4>スキルが自動で行う内容</h4>
+        <p>手作業でのコピー・置換は行わず、以下をスキルが一度に実行します。</p>
+        <ul class="sub">
+          <li><code>~/Downloads/ykn-handoff</code>（既定の出力先。第2引数で変更可）に作業フォルダを作成</li>
+          <li><code>sites/ykn.html</code> の中身を、作業フォルダ直下に <code>index.html</code> として保存</li>
+          <li><code>index.html</code>が実際に参照している <code>../images/...</code>・<code>../logos/...</code> のローカル画像だけを特定し、作業フォルダの <code>images/</code>・<code>logos/</code> にコピー（Drive由来など絶対URLの画像はコピー対象外）</li>
+          <li><code>index.html</code>内の <code>../images/</code>・<code>../logos/</code> を <code>images/</code>・<code>logos/</code> に一括置換（書き出し後は<code>index.html</code>が直下に来るため、<code>../</code>を外す向きの補正）</li>
+          <li>置換後、画像参照ごとに対応ファイルが実在するかを再スキャンして確認（欠けていればレポート）</li>
+          <li>作業フォルダを ZIP に圧縮</li>
+        </ul>
+      </li>
+      <li>
+        <h4>スキルが促す目視確認を必ず行う</h4>
+        <p>スキルは可能であれば作業フォルダの<code>index.html</code>を既定のブラウザで自動的に開きます。ここは自動化できない工程のため、画像・レイアウトが元のページと同じように表示されているか、必ず担当者の目で確認してください。崩れていると、渡した後にクライアント側で切り分けるのが難しくなります。</p>
+      </li>
+      <li>
+        <h4>完成したZIPを確認する</h4>
+        <p>スキルの実行結果として、ZIPのフルパス、コピーした画像/ロゴの一覧、壊れていた参照（あれば）が報告されます。これがフェーズ3でクライアントに送付するファイルになります。</p>
+      </li>
+    </ol>
+    <div class="pitfall">
+      <span class="label">スキルが自動でガードしている点</span>
+      <p>以前の不具合（<code>sites/</code>フォルダ内では逆に<code>../images/...</code>が必要だった件）の逆方向のパス補正、および他クライアントのファイル混入（<code>images/</code>・<code>logos/</code>を丸ごとコピーせず、実際に参照されているファイルだけをコピーする）は、スキルの手順に組み込まれているため手動で気をつける必要はありません。ただし、スキルが「壊れた参照」を報告した場合は、元の<code>sites/</code>配下のHTMLと<code>images/</code>・<code>logos/</code>フォルダの状態を確認してください。</p>
+    </div>
+    <div class="checkpoint">
+      <span class="label">この時点でできていること</span>
+      <p>対象クライアントの分だけを含む、単体で正しく動くZIPファイルがローカルに用意できている状態（目視確認済み）。リポジトリ名の付け方（<code>username.github.io</code>など、URLをシンプルにしたい場合の設定）はクライアント自身がGitHub上で行うため、Leagueが検討・準備する必要はありません（詳細はクライアント依頼手順書に記載済みです）。</p>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">03</span>
+      <div class="phase-title-wrap">
+        <h3>クライアントへZIPを送付する</h3>
+        <span class="phase-time">目安 10分</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>ZIPをメールに添付して送付する</h4>
+        <p>フェーズ2で作成したZIPファイルを、クライアント担当者宛のメールに添付して送付します。ファイルサイズが大きくメールに添付できない場合は、社内で利用しているファイル転送サービスを使ってください。GitHubのアカウント作成や招待といったやり取りは一切不要です。</p>
+      </li>
+      <li>
+        <h4>送付時に、使い方の案内を添える</h4>
+        <p>ZIPの中身（<code>index.html</code>・<code>images/</code>・<code>logos/</code>）の使い方は、別紙の「クライアント依頼手順書」にまとめてあります。メール本文でも、依頼手順書を参照するよう一言案内してください。</p>
+      </li>
+    </ol>
+    <div class="checkpoint">
+      <span class="label">この時点でできていること</span>
+      <p>ページのデータ一式がクライアントの手元に渡り、以後のGitHubアカウント準備・公開方法の選択・実施をすべてクライアント側で行える状態。League側の作業はここで一区切りです。</p>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">04</span>
+      <div class="phase-title-wrap">
+        <h3>旧URLからのご案内・社内の後片付け（<code>old-url-redirect</code>スキルで実行）</h3>
+        <span class="phase-time">目安 5分（+ 社内記録の更新）</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>クライアントの新URL公開が完了してから実行する</h4>
+        <p>このフェーズは、クライアントが実際に新しいURLで公開を終えている前提で行います。まだ移管が完了していない、または新URLが未確定の場合はスキルを実行しないでください。</p>
+      </li>
+      <li>
+        <h4>Claude Codeで<code>hp-en</code>リポジトリを開き、スキルを呼び出す</h4>
+        <p>対象ページのファイル名と、移管後の新URLの2つを指定して、<code>/old-url-redirect</code>スキルを実行します。</p>
+        <div class="code-card">
+          <div class="code-card-head"><span class="fname">Claude Codeでの実行例</span><span class="tag">SLASH COMMAND</span></div>
+          <pre class="code">/old-url-redirect ykn.html https://ykn.example.com/</pre>
+        </div>
+      </li>
+      <li>
+        <h4>スキルが自動で行う内容</h4>
+        <ul class="sub">
+          <li><code>sites/ykn.html</code>の現状を確認し、既にリダイレクトページになっていないかチェック</li>
+          <li>下記テンプレートの<code>新しいURLをここに</code>を実際の新URLに置き換え、3箇所すべてを揃えて<code>sites/ykn.html</code>を丸ごと上書き</li>
+          <li>置き換え後の差分（<code>git diff</code>）を提示</li>
+        </ul>
+        <div class="code-card">
+          <div class="code-card-head"><span class="fname">sites/（会社名）.html（旧URL側の中身がこれに置き換わる）</span><span class="tag">HTML</span></div>
+          <pre class="code">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;meta http-equiv="refresh" content="0; url=https://新しいURLをここに"&gt;
+&lt;link rel="canonical" href="https://新しいURLをここに"&gt;
+&lt;title&gt;Moved&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;This page has moved to &lt;a href="https://新しいURLをここに"&gt;https://新しいURLをここに&lt;/a&gt;.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        </div>
+      </li>
+      <li>
+        <h4>コミット・プッシュは必ず担当者が確認してから</h4>
+        <p><code>hp-en</code>は複数クライアントの共有リポジトリであり、変更は実際の公開ページに影響するため、ファイルの上書き後、<strong>コミットするかどうかは必ず確認</strong>されます。コミットする場合も、<strong>プッシュは別途明示的な許可を得てから</strong>行われます（スキルが無断でpushすることはありません）。</p>
+      </li>
+      <li>
+        <h4>社内の管理表・過去のSlack投稿・提案資料などのURL記載を確認する</h4>
+        <p>ここはコード変更を伴わないため、スキルは自動実行せずリマインドのみ行います。案件管理シートや過去のやり取りに旧URLが残っている場合は、可能な範囲で新URLに更新しておくと、後から見返したときの混乱を防げます。</p>
+      </li>
+    </ol>
+    <div class="checkpoint">
+      <span class="label">この時点でできていること</span>
+      <p>旧URLにアクセスしても新しいページに迷わずたどり着ける状態。</p>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">05</span>
+      <div class="phase-title-wrap">
+        <h3>最終確認・クライアントへの完了報告</h3>
+        <span class="phase-time">目安 10分</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>チェックリストで確認する</h4>
+        <ul class="sub">
+          <li>□ ZIPの中身をローカルで開き、画像・レイアウトが崩れなく表示されていた（フェーズ2の<code>handoff-package</code>実行時に確認済み）</li>
+          <li>□ ZIPには対象クライアントのファイルだけが含まれている（他クライアントのファイルが混ざっていない）</li>
+          <li>□ ZIPをクライアントへ送付済み</li>
+          <li>□ 旧URLからも迷わず新しい移管先にたどり着ける（フェーズ4の<code>old-url-redirect</code>実行・コミット・プッシュ済み）</li>
+          <li>□ 社内の記録（案件管理表など）を更新済み</li>
+        </ul>
+      </li>
+      <li>
+        <h4>クライアントに完了を報告する</h4>
+        <div class="msg-template">◯◯様
+
+お待たせいたしました。ご依頼いただいておりましたホームページデータの移管作業が完了いたしましたのでご報告いたします。
+
+ホームページのデータ一式をZIPファイルにまとめ、本メールに添付してお送りいたしました。ご確認ください。
+
+今後の公開方法（3つの選択肢）につきましては、別途お送りしております「ホームページの自己管理への移管に関するお願い」に手順をまとめておりますので、そちらをご参照のうえお進めください。ご不明な点がございましたら、お気軽にご連絡ください。</div>
+      </li>
+    </ol>
+    <div class="checkpoint">
+      <span class="label">この時点でできていること</span>
+      <p>移管作業が完了し、クライアントへの報告も済んでいる状態。以降のGitHubアカウント準備・公開方法の選択・設定はすべてクライアント側で進めていただく状態。</p>
+    </div>
+  </div>
+
+  <footer>
+    関連ファイル：<code>.claude/skills/handoff-package/SKILL.md</code>（フェーズ2の自動化スキル）／<code>.claude/skills/old-url-redirect/SKILL.md</code>（フェーズ4の自動化スキル）／<code>client-domain-migration-request.html</code>（クライアント依頼手順書・別途送付）<br>
+    参考：<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site" target="_blank" rel="noopener">GitHub Pages カスタムドメイン設定（公式ドキュメント）</a>
+  </footer>
+
+</div>
