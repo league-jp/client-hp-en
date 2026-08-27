@@ -1,0 +1,377 @@
+<title>独自ドメイン・移管に関するお願い</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --paper: #faf6ef; --paper-raised: #f2ece0; --ink: #1e2530; --ink-soft: #4d5560;
+    --ink-faint: #8a8f97; --rule: #ddd4c3; --accent: #b8451f; --accent-wash: #f4e3d8;
+    --teal: #33586b; --teal-soft: #cfe0e6; --ok: #3f6b4a; --ok-wash: #e1ecdf;
+    --code-bg: #232120; --code-fg: #e9e2d2; --code-comment: #9a9082;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #181510; --paper-raised: #211d16; --ink: #ede6d8; --ink-soft: #b8ae9c;
+      --ink-faint: #7d7466; --rule: #3a3427; --accent: #e08355; --accent-wash: #2c2118;
+      --teal: #8fb8c9; --teal-soft: #223540; --ok: #7fb28c; --ok-wash: #1f2b20;
+      --code-bg: #100f0d; --code-fg: #e9e2d2;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #181510; --paper-raised: #211d16; --ink: #ede6d8; --ink-soft: #b8ae9c;
+    --ink-faint: #7d7466; --rule: #3a3427; --accent: #e08355; --accent-wash: #2c2118;
+    --teal: #8fb8c9; --teal-soft: #223540; --ok: #7fb28c; --ok-wash: #1f2b20;
+    --code-bg: #100f0d; --code-fg: #e9e2d2;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    line-height: 1.85; font-size: 16px; -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 800px; margin: 0 auto; padding: 4.5rem 1.75rem 6rem; }
+
+  .cover {
+    border: 1px solid var(--rule); border-radius: 2px; padding: 2.5rem 2.25rem;
+    margin-bottom: 3rem; background: linear-gradient(180deg, var(--paper-raised), var(--paper));
+  }
+  .cover-eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); display: flex; justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .cover h1 {
+    font-family: 'Zen Old Mincho', serif; font-weight: 600; font-size: clamp(1.6rem, 4vw, 2.1rem);
+    line-height: 1.5; margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  .cover p.lede { color: var(--ink-soft); font-size: 0.98rem; max-width: 56ch; margin: 0; }
+
+  h2.section-title { font-family: 'Zen Old Mincho', serif; font-weight: 600; font-size: 1.25rem; margin: 0 0 1.2rem; }
+  section.meta-section { margin-bottom: 3rem; }
+  p { margin: 0 0 1rem; max-width: 66ch; color: var(--ink); }
+  p.tight { margin-bottom: 0; }
+  strong { font-weight: 700; }
+  a { color: var(--teal); text-decoration-color: var(--teal-soft); text-underline-offset: 3px; }
+
+  .callout {
+    border-left: 3px solid var(--teal); background: var(--teal-soft); padding: 0.95rem 1.2rem;
+    border-radius: 0 4px 4px 0; margin: 1.2rem 0;
+  }
+  .callout p { margin: 0; color: var(--ink); max-width: 62ch; font-size: 0.94rem; }
+  .callout p + p { margin-top: 0.6rem; }
+
+  .table-wrap { overflow-x: auto; margin: 1.4rem 0; border: 1px solid var(--rule); border-radius: 6px; }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 0.85rem; }
+  thead th {
+    text-align: left; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 0.7rem;
+    letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint);
+    padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--rule); background: var(--paper-raised);
+  }
+  tbody td { padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--rule); color: var(--ink-soft); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.field-name { color: var(--ink); font-weight: 500; white-space: nowrap; }
+  td code, p code {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: var(--paper-raised);
+    padding: 0.1em 0.35em; border-radius: 3px; color: var(--teal);
+  }
+
+  .option-card {
+    border: 1px solid var(--rule); border-radius: 8px; padding: 1.4rem 1.6rem; margin: 1.4rem 0;
+    background: var(--paper-raised);
+  }
+  .option-card .option-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.5rem;
+  }
+  .option-card h3 { font-family: 'Zen Old Mincho', serif; font-weight: 600; font-size: 1.1rem; margin: 0 0 0.6rem; }
+  .option-card p { font-size: 0.94rem; color: var(--ink-soft); margin-bottom: 0.6rem; }
+  .option-card p:last-child { margin-bottom: 0; }
+
+  .phase { margin-bottom: 3rem; }
+  .phase-head {
+    display: flex; align-items: baseline; gap: 0.9rem; margin-bottom: 0.3rem;
+    padding-bottom: 1rem; border-bottom: 2px solid var(--ink);
+  }
+  .phase-num { font-family: 'Zen Old Mincho', serif; font-size: 2rem; color: var(--accent); line-height: 1; }
+  .phase-title-wrap { flex: 1; }
+  .phase-head h3 { font-family: 'Zen Old Mincho', serif; font-weight: 600; font-size: 1.2rem; margin: 0 0 0.25rem; }
+  .phase-time { font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-faint); }
+
+  .tasklist { list-style: none; margin: 1.3rem 0; padding: 0; counter-reset: task; }
+  .tasklist > li { counter-increment: task; position: relative; padding: 0.15rem 0 0.15rem 2.2rem; margin-bottom: 1.1rem; }
+  .tasklist > li::before {
+    content: counter(task); position: absolute; left: 0; top: 0.05rem;
+    width: 1.5rem; height: 1.5rem; border-radius: 4px; background: var(--paper-raised);
+    border: 1px solid var(--rule); color: var(--ink-soft); font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; display: flex; align-items: center; justify-content: center;
+  }
+  .tasklist h4 { margin: 0 0 0.3rem; font-size: 0.98rem; font-weight: 700; }
+  .tasklist p { margin: 0 0 0.4rem; font-size: 0.9rem; color: var(--ink-soft); }
+  .tasklist ul.sub { margin: 0.4rem 0 0; padding-left: 1.2rem; }
+  .tasklist ul.sub li { font-size: 0.87rem; color: var(--ink-soft); margin-bottom: 0.25rem; }
+
+  .checkpoint {
+    border-left: 3px solid var(--ok); background: var(--ok-wash); padding: 0.9rem 1.15rem;
+    border-radius: 0 4px 4px 0; margin: 1.2rem 0 0;
+  }
+  .checkpoint p { margin: 0; color: var(--ink); font-size: 0.92rem; }
+  .checkpoint .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--ok); display: block; margin-bottom: 0.35rem;
+  }
+
+  .faq-item { margin-bottom: 1.3rem; }
+  .faq-item .q {
+    font-weight: 700; margin-bottom: 0.35rem; display: flex; gap: 0.6rem;
+  }
+  .faq-item .q .qmark {
+    font-family: 'Zen Old Mincho', serif; color: var(--accent); flex: none;
+  }
+  .faq-item .a { color: var(--ink-soft); font-size: 0.94rem; margin: 0 0 0 1.5rem; max-width: 60ch; }
+
+  footer { border-top: 1px solid var(--rule); padding-top: 1.4rem; font-size: 0.8rem; color: var(--ink-faint); }
+  footer a { color: var(--ink-faint); }
+</style>
+
+<div class="page">
+
+  <div class="cover">
+    <div class="cover-eyebrow"><span>ご依頼事項</span><span>LEAGUE INC.</span></div>
+    <h1>ホームページの自己管理への移管に関するお願い</h1>
+    <p class="lede">現在公開しております貴社の英語ホームページについて、「今後は貴社側で管理したい」というご希望に対応できるようになりました。まずLeagueより、ページのデータ一式をZIPファイルにまとめてチャットでお送りします。事前にアカウントなどをご準備いただく必要はありません。データをお受け取りいただいたあと、実際にどう公開するかを3つの選択肢の中からお選びいただき、貴社にて設定を行っていただく流れになります。公開が完了しましたら、新しいURLをLeagueまでチャットでお知らせください。</p>
+  </div>
+
+  <section class="meta-section">
+    <h2 class="section-title">全体の流れ</h2>
+    <p>大きく3段階に分かれます。ステップ1はLeagueが行い、ステップ2は貴社にて3つの選択肢からお選びいただき実施、ステップ3で公開完了のご連絡をいただきます。</p>
+    <div class="option-card">
+      <span class="option-tag">ステップ 1（League が対応）</span>
+      <h3>ページのデータをZIPファイルでお渡しする</h3>
+      <p>ページのデータ（HTMLファイルと画像一式）をまとめたZIPファイルを、チャットでお送りします。貴社側で事前にご準備いただくものは特にございません。</p>
+    </div>
+    <div class="option-card">
+      <span class="option-tag">ステップ 2（貴社にて対応）</span>
+      <h3>3つの公開方法から選んで設定する</h3>
+      <p>データをお渡しした後、実際にどう公開するかは3つの選択肢があります。以後の更新・管理も含め、こちらは貴社側で行っていただく形になります（引き続きLeagueへのご相談も可能です）。</p>
+    </div>
+    <div class="option-card">
+      <span class="option-tag">ステップ 3（貴社にて対応）</span>
+      <h3>公開完了後、新しいURLをLeagueへご連絡いただく</h3>
+      <p>選んだ方法で新しいページの公開が完了しましたら、そのURLをLeagueへチャットでお知らせください。これまでLeagueが公開していた旧ページを、新しいURLへ自動的にご案内するページに更新します。</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>選択肢</th><th>URLの例</th><th>費用</th><th>難易度の目安</th></tr></thead>
+        <tbody>
+          <tr><td class="field-name">1：github.ioでそのまま公開</td><td><code>お客様のユーザー名.github.io/…</code></td><td>無料</td><td>やさしい（設定1箇所）</td></tr>
+          <tr><td class="field-name">2：GitHubに独自ドメインを設定</td><td><code>www.貴社名.com</code> など</td><td>ドメイン代（年間数百〜数千円）</td><td>ふつう（ドメイン設定が必要）</td></tr>
+          <tr><td class="field-name">3：他社サーバー（Xserverなど）へ移設</td><td><code>www.貴社名.com</code> など</td><td>ドメイン代＋サーバー代</td><td>ややむずかしい（アップロード作業あり）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tight" style="margin-bottom:0">どれか1つに決めなければならないわけではなく、まず1（無料・最速）で公開しておき、あとから2や3に変更することも可能です。迷われる場合は、まず1をお試しいただくことをおすすめします。</p>
+  </section>
+
+  <!-- ステップ1 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">1</span>
+      <div class="phase-title-wrap">
+        <h3>データの受け取り（すべての選択肢に共通）</h3>
+        <span class="phase-time">目安 5分</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>Leagueからチャットで送られたZIPファイルをダウンロードしてください</h4>
+        <p>League担当者よりチャットでお送りするメッセージに、ページのデータ一式をまとめたZIPファイルが添付されています。ダウンロードして展開（解凍）してください。中には <code>index.html</code> というファイルと、<code>images</code>・<code>logos</code> という2つのフォルダが入っています。この時点でGitHubのアカウントなどをご用意いただく必要はありません。</p>
+      </li>
+      <li>
+        <h4>展開したフォルダの中の <code>index.html</code> をダブルクリックして、表示をご確認ください</h4>
+        <p>お使いのブラウザ（Chrome、Safariなど）でページが開き、これまで公開されていたホームページと同じ内容が表示されれば問題ありません。インターネットに接続していなくても表示されます。</p>
+      </li>
+      <li>
+        <h4>どの公開方法にするか、ご検討ください</h4>
+        <p>まだお決まりでない場合は、上記の3つの選択肢を参考にご検討ください（あとから変更することも可能です）。選択肢1・2をお選びの場合はGitHubアカウントのご用意が、選択肢3をお選びの場合はお使いのサーバーへのアップロードが、それぞれの手順の中に含まれています。</p>
+      </li>
+    </ol>
+    <div class="checkpoint">
+      <span class="label">ここまで完了すると</span>
+      <p>貴社のPC上にページのデータ一式が揃った状態になります。次のステップ2で、実際にどう公開するかを設定していただきます。</p>
+    </div>
+  </div>
+
+  <!-- ステップ2-1 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">2-1</span>
+      <div class="phase-title-wrap">
+        <h3>選択肢1：github.ioでそのまま公開する場合</h3>
+        <span class="phase-time">目安 20分</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>GitHubの無料アカウントを作成してください</h4>
+        <p><a href="https://github.com" target="_blank" rel="noopener">github.com</a> にアクセスし、無料アカウントを作成してください（メールアドレスがあればどなたでも登録できます）。すでにお持ちの場合はこの手順は不要です。</p>
+      </li>
+      <li>
+        <h4>新しいリポジトリを作成し、受け取ったファイルをアップロードしてください</h4>
+        <p>GitHubにログイン後、右上の「＋」→「New repository」から新しいリポジトリを作成します（リポジトリ名は下記コラムを参考に決めてください）。作成後、そのリポジトリの画面で「Add file」→「Upload files」を開き、受け取ったZIPを展開した中身（<code>index.html</code>・<code>images</code>フォルダ・<code>logos</code>フォルダ）をまとめてドラッグ&ドロップし、「Commit changes」で保存してください。</p>
+      </li>
+      <li>
+        <h4>GitHub Pagesを有効にしてください</h4>
+        <p>作成したリポジトリの画面上部「Settings」タブ →左メニューの「Pages」を開き、「Source」を「Deploy from a branch」、「Branch」を「main」／「/ (root)」に設定して保存してください。</p>
+      </li>
+      <li>
+        <h4>数分待ってURLを確認してください</h4>
+        <p>画面に表示される <code>https://お客様のユーザー名.github.io/リポジトリ名/</code> のようなURLが、数分後に公開URLになります（リポジトリ名を特別な形にされた場合は <code>https://お客様のユーザー名.github.io/</code> のみになります）。</p>
+      </li>
+    </ol>
+    <div class="callout">
+      <p><strong>コラム：URLをできるだけシンプルにしたい場合</strong> — 通常、公開URLは <code>お客様のユーザー名.github.io/リポジトリ名/</code> のように、リポジトリ名の部分が付きます。もし「リポジトリ名の付かない、シンプルな <code>お客様のユーザー名.github.io</code>」にしたい場合は、リポジトリ作成時の名前を <strong>ユーザー名そのもの＋<code>.github.io</code></strong>（例：ユーザー名が <code>carrirare</code> であれば <code>carrirare.github.io</code>）にしてください。この特別な名前のリポジトリは1アカウントにつき1つしか作れません。</p>
+    </div>
+    <div class="checkpoint">
+      <span class="label">完了です</span>
+      <p>費用をかけずに、すぐ公開できます。あとから選択肢2・3に切り替えることも可能です。公開できたら、次の「ステップ3」で新しいURLをLeagueへご連絡ください。</p>
+    </div>
+  </div>
+
+  <!-- ステップ2-2 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">2-2</span>
+      <div class="phase-title-wrap">
+        <h3>選択肢2：GitHubに独自ドメインを設定する場合</h3>
+        <span class="phase-time">目安 15分＋反映待ち（最大24時間程度）</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>選択肢1の手順でGitHub Pagesを有効にしてください</h4>
+        <p>まだの場合は、上記「選択肢1」の手順を先に行ってください。</p>
+      </li>
+      <li>
+        <h4>使いたいドメインをご準備ください</h4>
+        <p>すでにお持ちのドメインがあればそちらをお使いいただけます。まだお持ちでない場合は、「お名前.com」「ムームードメイン」などのドメイン取得サービスで、年間数百円〜数千円程度でご取得いただけます。</p>
+      </li>
+      <li>
+        <h4>GitHub側でカスタムドメインを登録してください</h4>
+        <p>リポジトリの「Settings」→「Pages」の「Custom domain」欄に、使いたいドメイン（例：<code>www.貴社名.com</code>）を入力して保存してください。</p>
+      </li>
+      <li>
+        <h4>ドメインの管理画面でDNSレコードを追加してください</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ドメインの種類</th><th>例</th><th>設定するレコード</th></tr></thead>
+            <tbody>
+              <tr><td class="field-name">サブドメイン（推奨）</td><td><code>www.貴社名.com</code></td><td>CNAMEレコードを1本、<code>お客様のユーザー名.github.io</code> 宛てに追加</td></tr>
+              <tr><td class="field-name">ルート（apex）ドメイン</td><td><code>貴社名.com</code></td><td>Aレコードを4本、<code>185.199.108.153</code>／<code>185.199.109.153</code>／<code>185.199.110.153</code>／<code>185.199.111.153</code> 宛てに追加</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tight" style="margin-bottom:0">ドメイン取得サービスの管理画面にある「DNS設定」または「ネームサーバー設定」といった項目から追加できます（サービスによって呼び方が異なります）。</p>
+      </li>
+      <li>
+        <h4>反映を待ち、HTTPSを有効にしてください</h4>
+        <p>GitHubの「Settings」→「Pages」画面で「DNS check successful」という緑のチェックが表示されたら（数分〜最大24時間程度）、同じ画面の「Enforce HTTPS」にチェックを入れてください。無料のSSL証明書が自動発行されます。</p>
+      </li>
+    </ol>
+    <div class="checkpoint">
+      <span class="label">完了です</span>
+      <p>独自ドメインで、鍵マーク（HTTPS）付きのページが公開されます。設定でご不明な点があれば、Leagueまでお気軽にご相談ください。公開できたら、次の「ステップ3」で新しいURLをLeagueへご連絡ください。</p>
+    </div>
+  </div>
+
+  <!-- ステップ2-3 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">2-3</span>
+      <div class="phase-title-wrap">
+        <h3>選択肢3：他社サーバー（Xserverなど）へ移設する場合</h3>
+        <span class="phase-time">目安 15〜20分</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>GitHubは不要です</h4>
+        <p>この選択肢はGitHubを使いません。ステップ1で受け取り、展開（解凍）済みのファイル一式（<code>index.html</code>・<code>images</code>フォルダ・<code>logos</code>フォルダ）をそのままお使いください。</p>
+      </li>
+      <li>
+        <h4>お使いのサーバーにファイルをアップロードしてください</h4>
+        <p>Xserverなど、すでにお使いのレンタルサーバーがあれば、そのサーバーのファイル管理画面（ファイルマネージャー）またはFTPソフトを使って、フォルダ構成を保ったまま公開用フォルダ（<code>public_html</code> など、サーバーによって名称が異なります）にアップロードしてください。データベースやプログラムを使わない、そのまま表示できるシンプルなファイルのみで構成されているため、特別な設定は不要です。</p>
+      </li>
+      <li>
+        <h4>ドメインがそのサーバーを向くようにしてください</h4>
+        <p>すでにそのサーバーで別のサイトを運用されている場合は、ドメインの設定は完了しているはずです。新しくドメインを取得された場合は、契約されているサーバーの案内に沿って、ドメインの管理画面でネームサーバーまたはDNSの設定を行ってください（サーバー会社ごとに手順が異なるため、契約先のサポートページをご確認ください）。</p>
+      </li>
+    </ol>
+    <div class="callout">
+      <p>この選択肢はサーバー会社ごとに操作画面が異なるため、本書では一般的な流れのみご案内しています。具体的な操作でご不明な点があれば、契約されているサーバー会社のサポート窓口にお問い合わせいただくのが確実です。</p>
+    </div>
+    <div class="checkpoint">
+      <span class="label">完了です</span>
+      <p>お使いのサーバー・独自ドメインでページが公開されます。公開できたら、次の「ステップ3」で新しいURLをLeagueへご連絡ください。</p>
+    </div>
+  </div>
+
+  <!-- ステップ3 -->
+  <div class="phase">
+    <div class="phase-head">
+      <span class="phase-num">3</span>
+      <div class="phase-title-wrap">
+        <h3>公開完了後、Leagueへ新しいURLをご連絡ください</h3>
+        <span class="phase-time">目安 5分</span>
+      </div>
+    </div>
+    <ol class="tasklist">
+      <li>
+        <h4>新しいURLが確定したら、チャットでLeagueにお知らせください</h4>
+        <p>選択肢1・2・3のいずれかで新しいページの公開が完了しましたら、そのURL（例：<code>https://お客様のユーザー名.github.io/リポジトリ名/</code> や独自ドメインのURL）をLeagueまでチャットでご連絡ください。</p>
+      </li>
+      <li>
+        <h4>Leagueにて旧ページを新URLへの案内ページに更新します</h4>
+        <p>ご連絡いただいたURLをもとに、これまでLeagueが公開していた旧ページを、新しいURLへ自動的にご案内するページに更新します。過去に共有された旧URLへのアクセスがあった場合も、迷わず新しいページにたどり着けるようになります。</p>
+      </li>
+    </ol>
+    <div class="checkpoint">
+      <span class="label">ここまで完了すると</span>
+      <p>旧URLからも新しいページへ迷わずたどり着ける状態になり、移管作業がすべて完了します。</p>
+    </div>
+  </div>
+
+  <section class="meta-section">
+    <h2 class="section-title">よくあるご質問</h2>
+    <div class="faq-item">
+      <div class="q"><span class="qmark">Q.</span> 今のURL（github.io のもの）は使えなくなりますか？</div>
+      <div class="a">旧URLへの直接のアクセスがあった場合も、ステップ3でご連絡いただいた新しいURLへ自動的にご案内するページに切り替えますので、過去に共有されたリンクが無効になることはありません。</div>
+    </div>
+    <div class="faq-item">
+      <div class="q"><span class="qmark">Q.</span> どの選択肢を選べばよいかわかりません。</div>
+      <div class="a">まずは費用がかからず一番早い「選択肢1」で公開しておき、独自ドメインが必要になったタイミングで「選択肢2」に切り替える、という進め方がおすすめです。すでに他社サーバーやドメインをお持ちで、これまでの管理体制を変えたくない場合は「選択肢3」が向いています。迷われる場合はLeagueにご相談ください。</div>
+    </div>
+    <div class="faq-item">
+      <div class="q"><span class="qmark">Q.</span> GitHubのアカウントは必ず作らないといけませんか？</div>
+      <div class="a">選択肢1・2（GitHubで公開する場合）をお選びのときのみ必要です。選択肢3（他社サーバーへ移設）をお選びの場合はGitHubは不要で、お受け取りいただいたZIPの中身をそのままお使いいただけます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="q"><span class="qmark">Q.</span> 独自ドメインの取得や維持に費用はかかりますか？</div>
+      <div class="a">ドメイン自体の取得・更新費用（年間数百〜数千円程度、ドメインの種類により異なります）は貴社のご負担となります。選択肢1・2のホスティング自体には費用はかかりません（選択肢3は別途サーバー費用が必要です）。</div>
+    </div>
+    <div class="faq-item">
+      <div class="q"><span class="qmark">Q.</span> ステップ2の設定は難しくありませんか？</div>
+      <div class="a">選択肢1はGitHubアカウント作成を含め数十分程度で完了する簡単な設定です。選択肢2はさらにドメイン管理画面への値の追加が必要ですが、指定された値をコピー&ペーストしていただくだけです。選択肢3はご利用のサーバーによって操作が異なりますが、通常のファイルアップロードと同じ操作です。いずれもご不明な点があればLeagueにご相談いただけます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="q"><span class="qmark">Q.</span> データを受け取ったあとのページの更新も、Leagueにお願いできますか？</div>
+      <div class="a">恐れ入りますが、データをお渡しした後のページの更新は貴社にて行っていただく形になります。Leagueは今回のデータ引き渡し（ステップ1〜3）をもって、本ページの更新対応を終了いたします。選択肢1・2（GitHub）をお使いの場合はGitHub上でHTMLファイルを直接編集、選択肢3（他社サーバー）の場合はサーバー上のファイルを直接編集することでご更新いただけます。</div>
+    </div>
+  </section>
+
+  <footer>
+    ご不明点がございましたら、お気軽にLeague担当者までお問い合わせください。
+  </footer>
+
+</div>
